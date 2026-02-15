@@ -1,23 +1,13 @@
 from fastapi import FastAPI
 import uvicorn
-from .schemas import IdeaReq,ConvIdeaReq
+from schemas import IdeaReq,ConvIdeaReq
+from llm_engine import generate_curated_ideas
 
 app = FastAPI()
 
 @app.post('/generate')
 async def generate_ideas(req:IdeaReq):
-    return {
-        "ideas": [
-            {
-                "title": "Dummy Idea",
-                "problem_statement": "Test problem",
-                "prerequisites": ["Python"],
-                "features": ["Feature 1"],
-                "tech_stack": "FastAPI",
-                "difficulty": "Intermediate"
-            }
-        ]
-    }
+    return await generate_curated_ideas(req.model_dump())
 
 @app.post('/discuss')
 async def discuss(req:ConvIdeaReq):
