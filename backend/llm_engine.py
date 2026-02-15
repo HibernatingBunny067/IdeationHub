@@ -39,7 +39,7 @@ async def generate_curated_ideas(input_dict:dict) -> List[Idea]:
     return final_output
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": ##testing no use !!
     chain = input_prompt | structured_llm
     currator_chain = deduplication_prompt | currator_llm
     parallel_chain = make_parallel(5,chain)
