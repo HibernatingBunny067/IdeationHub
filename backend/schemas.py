@@ -2,7 +2,7 @@ from pydantic import BaseModel
 from typing import List,Literal
 
 class IdeaReq(BaseModel):
-    skill_level:str
+    skill_level: Literal['begineer','intermediate','advanced']
     domain:str
     career_goal:str
 
@@ -17,8 +17,12 @@ class Idea(BaseModel):
 class Ideas(BaseModel):
     ideas:List[Idea]
 
+class ChatMessage(BaseModel):
+    role: Literal['user','assistant']
+    content:str
+
 class ConvIdeaReq(BaseModel):
     idea:Idea
     user_message:str
-    last_messages: List[str]
+    last_messages: List[ChatMessage]
     user_idea_info: IdeaReq
