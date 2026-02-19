@@ -1,11 +1,22 @@
+## we run this from the terminal using uvicorn commmand 
 from fastapi import FastAPI,HTTPException
-import uvicorn
-from schemas import IdeaReq,ConvIdeaReq
-from llm_engine import generate_curated_ideas,discuss_idea
+from .schemas import (
+    IdeaReq,
+    Ideas,
+    ConvIdeaReq,
+    ExecBlueprint,
+    RoadMap,
+    Impact)
+from .llm_engine import (
+    generate_curated_ideas,
+    discuss_idea,
+    generate_blueprint,
+    generate_roadmap,
+    generate_impact)
 
 app = FastAPI()
 
-@app.post('/generate')
+@app.post('/generate',response_model=Ideas)
 async def generate_ideas(req:IdeaReq):
     try:
         result =  await generate_curated_ideas(req.model_dump())
@@ -27,8 +38,14 @@ async def discuss(req:ConvIdeaReq):
     except Exception as e:
         print("[DISUCSSION FAILED]",e)
 
+@app.post('/blueprint',response_model=ExecBlueprint)
+async def blueprint(req:IdeaReq):
+    return await generate_blueprint(req)
 
+@app.post('/roadmap',response_model=RoadMap)
+async def roadmap(req:IdeaReq):
+    return await generate_roadmap(req)
 
-if __name__ == '__main__':
-    uvicorn.run("main:app",port=6969,reload=True)
-
+@app.post('/impact',response_model=Impact)
+async def impact(req:IdeaReq):
+    return await generate_impact(req)

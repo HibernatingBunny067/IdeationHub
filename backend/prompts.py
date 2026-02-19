@@ -1,17 +1,18 @@
 from langchain_core.prompts import ChatPromptTemplate
 
 input_prompt = ChatPromptTemplate.from_messages([
-    ('system',"you are an expert project mentor, who suggests project ideas that align with the mentee's current skill level and long-term career choice."),
+  ('system',"""
+you are an expert project mentor, who excels at brainstorming ideas from technical and non techincal fields, revelant to the mentee's career goal. Suggest project ideas that align with the mentee's current skill level and long-term career choice, output a mix of technical and non-technical project ideas. Explore potential fields and diversify your horizon.
+"""),
     ("human","""
 Generate 1 strucutred project ideas.
      
 Skill Level:{skill_level}
 Domain:{domain}
 Career Goal: {career_goal}
-     
+Additional instruction: {extra_instruction}
 Return only structured JSON.
 Difficulty must be one of: easy, intermediate or advanced.
-     
 You MUST return output in this exact JSON format:
 
 {{
@@ -86,7 +87,8 @@ The user selected this project idea:
      
 User Profile:
 Skill level: {skill_level}
-Career goal: {career_goal} 
+Career goal: {career_goal}
+Domain: {domain}
      
 Rules:
 - Stay grounded in this idea.
@@ -99,4 +101,19 @@ politely refuse and redirect back.
 """),
 ('placeholder','{history}'),
 ('human',"{user_message}")
+])
+
+blueprint_prompt = ChatPromptTemplate.from_messages([
+    ('system',"""
+You are a senior project mentor.
+     
+The user has selected this Idea:
+     
+{idea}
+
+User Profile:
+
+
+
+""")
 ])

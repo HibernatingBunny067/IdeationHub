@@ -32,15 +32,15 @@ if user_input:
 
     payload = {
         "idea": idea,
-        "skill_level": user_info["skill_level"],
-        "career_goal": user_info["career_goal"],
-        "history": st.session_state["chat_history"][-5:],
-        "user_message": user_input
+        "user_idea_info":user_info,
+        "last_messages":st.session_state["chat_history"][-5:],
+        "user_message":user_input
     }
 
     with st.spinner('Thinking...'):
         response = discuss_ideas(payload)
     data = response.json()
+    # print("Keys: {k}".format(k=data.keys()))
     assistant_reply = data["response"]
 
     st.session_state["chat_history"].append({

@@ -4,7 +4,7 @@ echo "Activating virtual environment"
 source .venv/bin/activate
 
 echo "Starting backend.."
-python ./backend/main.py &
+uvicorn backend.main:app --port 6969  --reload &
 BACKEND_PID=$!
 
 sleep 2
